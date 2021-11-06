@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import Avatar from '@mui/material/Avatar';
 
 export default function AppBanner() {
     const { auth } = useContext(AuthContext);
@@ -81,8 +82,13 @@ export default function AppBanner() {
     }
     
     function getAccountMenu(loggedIn) {
+        if (loggedIn) {
+            let initials = auth.user.firstName[0].toUpperCase() + "" + 
+                           auth.user.lastName[0].toUpperCase();
+            return <Avatar sx={{bgcolor: 'transparent'}}>{initials}</Avatar>;
+        }
         return <AccountCircle />;
-    }
+    }   
 
     return (
         <Box sx={{ flexGrow: 1 }}>
