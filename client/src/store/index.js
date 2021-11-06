@@ -175,6 +175,9 @@ function GlobalStoreContextProvider(props) {
                         response = await api.getTop5ListPairs();
                         if (response.data.success) {
                             let pairsArray = response.data.idNamePairs;
+                            pairsArray = pairsArray.filter( function (pair) {
+                                return pair.ownerEmail === auth.user.email
+                            })
                             storeReducer({
                                 type: GlobalStoreActionType.CHANGE_LIST_NAME,
                                 payload: {
@@ -234,7 +237,7 @@ function GlobalStoreContextProvider(props) {
         if (response.data.success) {
             let pairsArray = response.data.idNamePairs;
             pairsArray = pairsArray.filter( function (pair) {
-                return pair.ownerEmail === auth.user.ownerEmail
+                return pair.ownerEmail === auth.user.email
             })
             storeReducer({
                 type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
