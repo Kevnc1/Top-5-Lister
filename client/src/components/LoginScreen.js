@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import AuthContext from '../auth';
 import Copyright from './Copyright'
+import AccountErrorModal from './AccountErrorModal';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -119,6 +120,8 @@ export default function LoginScreen() {
           </Box>
         </Grid>
       </Grid>
+      <AccountErrorModal>
+      </AccountErrorModal>
     </ThemeProvider>
   );
 }

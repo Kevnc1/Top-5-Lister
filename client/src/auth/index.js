@@ -10,13 +10,16 @@ export const AuthActionType = {
     GET_LOGGED_IN: "GET_LOGGED_IN",
     REGISTER_USER: "REGISTER_USER",
     LOGIN_USER: "LOGIN_USER",
-    LOGOUT_USER: "LOGOUT_USER"
+    LOGOUT_USER: "LOGOUT_USER",
+    FLAG_ERROR: "FLAG_ERROR",
+    UNFLAG_ERROR: "UNFLAG_ERROR"
 }
 
 function AuthContextProvider(props) {
     const [auth, setAuth] = useState({
         user: null,
-        loggedIn: false
+        loggedIn: false,
+        auth_error: null
     });
     const history = useHistory();
 
@@ -30,25 +33,43 @@ function AuthContextProvider(props) {
             case AuthActionType.GET_LOGGED_IN: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: payload.loggedIn
+                    loggedIn: payload.loggedIn,
+                    auth_error: null
                 });
             }
             case AuthActionType.REGISTER_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: true
+                    loggedIn: true,
+                    auth_error: null
                 })
             }
             case AuthActionType.LOGIN_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: true
+                    loggedIn: true,
+                    auth_error: null
                 })
             }
             case AuthActionType.LOGOUT_USER: {
                 return setAuth({
                     user: null,
-                    loggedIn: false
+                    loggedIn: false,
+                    auth_error: null
+                })
+            }
+            case AuthActionType.FLAG_ERROR: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    auth_error: payload.auth_error
+                })
+            }
+            case AuthActionType.UNFLAG_ERROR: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    auth_error: null
                 })
             }
             default:
@@ -89,6 +110,14 @@ function AuthContextProvider(props) {
             }
         }
         catch (err) {
+            if (err.response){
+                authReducer( {
+                    type: AuthActionType.FLAG_ERROR,
+                    payload: {
+                        auth_error: err.response.data.errorMessage
+                    }
+                })
+            }
             console.error(err);
         }
     }
@@ -111,6 +140,14 @@ function AuthContextProvider(props) {
             }
         }
         catch (err) {
+            if (err.response){
+                authReducer( {
+                    type: AuthActionType.FLAG_ERROR,
+                    payload: {
+                        auth_error: err.response.data.errorMessage
+                    }
+                })
+            }
             console.error(err);
         }
     }
@@ -128,6 +165,12 @@ function AuthContextProvider(props) {
         catch (err) {
             console.error(err);
         }
+    }
+
+    auth.unflagError = async function() {
+        authReducer( {
+            type: AuthActionType.UNFLAG_ERROR
+        })
     }
 
     return (
