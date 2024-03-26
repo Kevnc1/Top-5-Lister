@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken")
 
-function authManager() {
+// returns an object containing authentication-related methods
+function authManager() { 
+    // middleware function for verifying JWT tokens 
     verify = function (req, res, next) {
         try {
             const token = req.cookies.token;
@@ -24,6 +26,11 @@ function authManager() {
         }
     }
 
+    test_method = function (req, res, next) {
+        
+    }
+
+    // method for generating JWT for a given user
     signToken = function (user) {
         return jwt.sign({
             userId: user._id
@@ -33,5 +40,6 @@ function authManager() {
     return this;
 }
 
+// export as module
 const auth = authManager();
 module.exports = auth;

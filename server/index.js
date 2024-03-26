@@ -1,8 +1,8 @@
-// THESE ARE NODE APIs WE WISH TO USE
-const express = require('express')
-const cors = require('cors')
-const dotenv = require('dotenv')
-const cookieParser = require('cookie-parser')
+// Importing Node.js Modules
+const express = require('express') // back-end web app framework
+const cors = require('cors') // cross-origin resource sharing
+const dotenv = require('dotenv') // loads env variables from an .env file into process.env
+const cookieParser = require('cookie-parser') // parse cookies from request object
 
 // CREATE OUR SERVER
 dotenv.config()
@@ -15,7 +15,7 @@ app.use(cors({
     origin: ["http://localhost:3000"],
     credentials: true
 }))
-app.use(express.json())
+app.use(express.json()) 
 app.use(cookieParser())
 
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
